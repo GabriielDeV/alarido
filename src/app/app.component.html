@@ -1,0 +1,258 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<div class="flex flex-col h-screen" [ngClass]="{'dark': isDarkMode}">
+    <!-- Cabeçalho Mobile -->
+    <div class="md:hidden flex items-center justify-between p-3 bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
+        <div class="flex items-center">
+            <div class="font-title text-2xl bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent font-bold">Alarido</div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button (click)="toggleBooksDropdown()" 
+                    class="text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                <i class="fas fa-book text-lg"></i>
+            </button>
+            <button (click)="toggleLanguageDropdown()" 
+                    class="text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                <i class="fas fa-globe text-lg"></i>
+            </button>
+            <button (click)="toggleDarkMode()" 
+                    class="text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                <i class="fas text-lg" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+            </button>
+            <button (click)="toggleLoginModal()" 
+                    class="flex items-center justify-center bg-white border-2 border-orange-500 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all transform hover:scale-105 active:scale-95 shadow-md">
+                <i class="fas fa-user text-lg text-orange-500"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div *ngIf="showLoginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md p-6 transform transition-all slide-up">
+            <div class="flex flex-col items-center mb-6">
+                <img src="assets/alarido.png" alt="Alarido Logo" class="w-28 h-28 mb-4 object-contain">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Login Alarido</h2>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input type="email" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="seu@email.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Senha</label>
+                    <input type="password" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="********">
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               class="h-4 w-4 text-orange-500 border-gray-300 rounded">
+                        <label class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                            Lembrar-me
+                        </label>
+                    </div>
+                    <a href="#" class="text-sm text-orange-500 hover:text-orange-600">
+                        Esqueceu a senha?
+                    </a>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md font-medium text-base flex items-center justify-center space-x-2">
+                    <i class="fas fa-sign-in-alt text-white"></i>
+                    <span>Entrar na Plataforma</span>
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Não tem uma conta?</span>
+                <a href="#" class="text-sm text-orange-500 hover:text-orange-600 ml-1">Registre-se</a>
+            </div>
+            <button (click)="toggleLoginModal()" 
+                    class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <!-- Barra Lateral -->
+        <div class="w-full md:w-1/3 md:min-h-screen border-b md:border-b-0 md:border-r border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+            <div class="p-3 md:p-4">
+                <div class="relative">
+                    <div class="flex items-center mb-4 fade-in">
+                        <input type="text" [(ngModel)]="searchQuery" 
+                               (input)="onSearchInput()"
+                               placeholder="Pesquisar na Tabela" 
+                               class="border border-gray-300 rounded-l px-3 py-2 w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm md:text-base">
+                        <button (click)="searchDocuments()" 
+                                class="bg-orange-500 text-white px-4 py-2 rounded-r hover:bg-orange-600 text-sm md:text-base">IR</button>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-2 fade-in">
+                        <div class="flex items-center">
+                            <i class="fas fa-search text-orange-500 mr-2 text-sm"></i>
+                            <span class="text-orange-500 text-sm">PESQUISANDO:</span>
+                            <span class="text-gray-700 dark:text-gray-300 text-sm ml-2">{{ searchQuery || 'Todas as palavras' }}</span>
+                        </div>
+                        <div class="text-gray-700 dark:text-gray-300 text-sm font-medium">
+                            {{ searchResults }} resultados
+                        </div>
+                    </div>
+
+                    <!-- Resultados da Pesquisa -->
+                    <div *ngIf="showSearchResults && searchQuery" 
+                         class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg overflow-y-auto max-h-[60vh]">
+                        <div *ngIf="searchResults === 0" class="p-4 text-gray-700 dark:text-gray-300 text-sm text-center">
+                            Nenhum resultado encontrado
+                        </div>
+                        <div *ngFor="let doc of filteredDocuments" 
+                             (click)="selectSearchResult(doc)"
+                             class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
+                            <div class="font-medium text-gray-800 dark:text-gray-200">{{ doc.title }}</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ doc.code }} - {{ doc.location }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                                {{ doc.content[0] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdowns Mobile -->
+            <div *ngIf="showBooksDropdown" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-t-xl fixed bottom-0 left-0 right-0 max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+                        <span class="text-lg font-medium dark:text-white">Selecionar Livro</span>
+                        <button (click)="toggleBooksDropdown()" class="text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <div *ngFor="let doc of documents" 
+                             (click)="selectBook(doc)"
+                             class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg mb-2">
+                            <div class="font-medium text-gray-800 dark:text-gray-200">{{ doc.title }}</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ doc.code }} - {{ doc.location }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showLanguageDropdown" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-t-xl fixed bottom-0 left-0 right-0">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+                        <span class="text-lg font-medium dark:text-white">Selecionar Idioma</span>
+                        <button (click)="toggleLanguageDropdown()" class="text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <div class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg mb-2 dark:text-gray-200">Português</div>
+                        <div class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg mb-2 dark:text-gray-200">English</div>
+                        <div class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg mb-2 dark:text-gray-200">Español</div>
+                        <div class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200">Français</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="w-full md:w-2/3 flex flex-col dark:bg-gray-900 overflow-hidden">
+            <!-- Cabeçalho Desktop -->
+            <div class="hidden md:flex flex-col bg-white dark:bg-gray-800 shadow-md fade-in">
+                <!-- Logo e Nome -->
+                <div class="flex items-center justify-center py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="font-title text-4xl bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent font-bold">Alarido</div>
+                </div>
+                
+                <!-- Barra de Navegação -->
+                <div class="flex justify-between items-center px-6 py-3">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <button (click)="toggleBooksDropdown()" 
+                                    class="flex items-center text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                                <i class="fas fa-book mr-2"></i>
+                                Selecionar Livro
+                                <i class="fas fa-chevron-down ml-2"></i>
+                            </button>
+                            <div *ngIf="showBooksDropdown" 
+                                 class="absolute left-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded shadow-lg z-50 max-h-96 overflow-y-auto">
+                                <div *ngFor="let doc of documents" 
+                                     (click)="selectBook(doc)"
+                                     class="p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700">
+                                    <div class="font-medium">{{ doc.title }}</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">{{ doc.code }} - {{ doc.location }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button (click)="toggleLanguageDropdown()" 
+                                    class="flex items-center text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                                Português <i class="fas fa-chevron-down ml-2"></i>
+                            </button>
+                            <div *ngIf="showLanguageDropdown" 
+                                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded shadow-lg z-50">
+                                <div class="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300">English</div>
+                                <div class="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300">Español</div>
+                                <div class="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300">Français</div>
+                            </div>
+                        </div>
+                        <button (click)="toggleDarkMode()" 
+                                class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-600">
+                            <i class="fas" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+                        </button>
+                        <button (click)="toggleLoginModal()" 
+                                class="flex items-center space-x-2 bg-gradient-to-r from-gray-600 to-gray-700 px-5 py-2.5 rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 active:scale-95 shadow-md font-medium">
+                            <i class="fas fa-user text-white"></i>
+                            <span class="text-white">Entrar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de Leitura -->
+            <div class="flex-1 overflow-y-auto p-3 md:p-4 scroll-smooth">
+                <div class="max-w-3xl mx-auto">
+                    <div class="text-orange-500 text-xs md:text-sm mb-2 fade-in">
+                        {{ currentDocument.code }} {{ currentDocument.title }}
+                    </div>
+                    <div class="text-center mb-4 md:mb-6 fade-in">
+                        <div class="text-lg md:text-2xl font-serif italic mb-2 dark:text-white">
+                            {{ currentDocument.title }}
+                        </div>
+                        <div class="text-sm md:text-lg mb-2 dark:text-gray-300">
+                            {{ currentDocument.code }}
+                        </div>
+                        <div class="text-sm md:text-lg font-semibold dark:text-gray-300">
+                            {{ currentDocument.location }}
+                        </div>
+                    </div>
+                    <div class="text-gray-700 dark:text-gray-300 space-y-4 md:space-y-6">
+                        <div *ngFor="let paragraph of currentDocument.content" 
+                             class="fade-in leading-relaxed text-sm md:text-base" [innerHTML]="paragraph"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<router-outlet></router-outlet>

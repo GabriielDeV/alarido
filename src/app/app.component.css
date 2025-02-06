@@ -1,0 +1,347 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+.dark-mode {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+
+.dark-mode .text-gray-700 {
+    color: #e2e8f0;
+}
+
+.dark-mode .bg-white {
+    background-color: #2d3748;
+}
+
+.dark-mode .border-gray-300 {
+    border-color: #4a5568;
+}
+
+.dark-mode input {
+    background-color: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
+}
+
+.dark-mode button {
+    background-color: #4a5568;
+    color: #e2e8f0;
+}
+
+.dark-mode button:hover {
+    background-color: #2d3748;
+}
+
+/* Estilos para a barra de rolagem */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 dark:bg-gray-600;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500 dark:bg-gray-500;
+}
+
+.dark-mode ::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+}
+
+/* Estilos para a área de leitura */
+.leading-relaxed {
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* Estilos para o dropdown de livros e resultados de pesquisa */
+.max-h-96 {
+    max-height: 24rem;
+}
+
+/* Efeito hover nos itens do dropdown */
+.hover\:bg-gray-100:hover {
+    @apply bg-gray-100 dark:bg-gray-700;
+    transition: background-color 0.2s ease;
+}
+
+/* Estilo para ícones dentro do texto */
+i.fas {
+    @apply text-orange-500;
+    margin-right: 0.5rem;
+}
+
+/* Estilo para links dentro do texto */
+a {
+    @apply text-orange-500 hover:text-orange-600;
+    text-decoration: none;
+}
+
+/* Estilo para citações */
+blockquote {
+    @apply border-l-4 border-orange-500 pl-4 my-4 italic;
+}
+
+/* Animação suave ao trocar de livro */
+.scroll-smooth {
+    scroll-behavior: smooth;
+}
+
+/* Estilos para resultados de pesquisa */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Estilo para destacar termos pesquisados */
+.highlight {
+    @apply bg-yellow-200 dark:bg-yellow-900;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    /* Ajustes para o cabeçalho em dispositivos móveis */
+    .flex-col-mobile {
+        flex-direction: column;
+    }
+
+    /* Ajustes para dropdowns em dispositivos móveis */
+    .dropdown-mobile {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    /* Ajustes para o texto em dispositivos móveis */
+    .text-mobile {
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    /* Ajustes para espaçamento em dispositivos móveis */
+    .p-mobile {
+        padding: 0.75rem;
+    }
+
+    /* Melhorar a área de toque em dispositivos móveis */
+    button, 
+    .dropdown-item,
+    input,
+    a {
+        min-height: 44px;
+        padding: 0.75rem;
+    }
+
+    /* Ajustes para a barra de rolagem em dispositivos móveis */
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Melhorar legibilidade */
+    .leading-relaxed {
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    /* Otimizar dropdowns mobile */
+    .mobile-dropdown {
+        @apply fixed inset-0 bg-black bg-opacity-50 z-50;
+    }
+
+    .mobile-dropdown-content {
+        @apply bg-white dark:bg-gray-800 rounded-t-xl fixed bottom-0 left-0 right-0;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    /* Melhorar scrolling */
+    .overflow-y-auto {
+        -webkit-overflow-scrolling: touch;
+        scroll-padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Ajustes para notch e áreas seguras */
+    .safe-area-top {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Melhorar feedback tátil */
+    .active-state {
+        @apply opacity-70;
+        transition: opacity 0.2s ease;
+    }
+
+    /* Otimizar performance de animações */
+    * {
+        backface-visibility: hidden;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 360px) {
+    .text-xs-mobile {
+        font-size: 0.75rem;
+    }
+
+    .p-xs-mobile {
+        padding: 0.5rem;
+    }
+
+    button, 
+    .dropdown-item {
+        padding: 0.5rem;
+    }
+}
+
+/* Ajustes para altura da tela em dispositivos móveis */
+@media (max-height: 600px) {
+    .max-h-96 {
+        max-height: 60vh;
+    }
+}
+
+/* Ajustes para telas altas */
+@media (min-height: 800px) {
+    .max-h-mobile {
+        max-height: 70vh;
+    }
+}
+
+/* Melhorias de acessibilidade para toque */
+@media (hover: none) {
+    .hover\:bg-gray-100:active {
+        @apply bg-gray-100 dark:bg-gray-700;
+    }
+
+    button:active,
+    a:active {
+        @apply opacity-70;
+    }
+
+    /* Feedback visual para interações */
+    .touch-feedback {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .touch-feedback::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: currentColor;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .touch-feedback:active::after {
+        opacity: 0.1;
+    }
+}
+
+/* Suporte para modo escuro */
+:root {
+    color-scheme: light dark;
+}
+
+/* Melhorias de performance */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-contrast: more) {
+    :root {
+        --orange-500: #cc3700;
+    }
+}
+
+/* Estilos do Modal de Login */
+.modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    @apply bg-white dark:bg-gray-800 rounded-lg w-full max-w-md p-6 transform transition-all;
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remover as classes de animação da logo que não serão mais usadas */
+.logo-spin, .logo-hover {
+    display: none;
+}
