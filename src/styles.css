@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    @apply bg-gray-50 dark:bg-gray-900;
+    transition: background-color 0.3s ease;
+}
+
+.dark body {
+    @apply bg-gray-900;
+}
+
+/* Estilos para garantir que o tema escuro seja aplicado em elementos específicos */
+.dark input::placeholder {
+    @apply text-gray-400;
+}
+
+.dark i.fas {
+    @apply text-gray-300;
+}
+
+/* Transições suaves para mudança de tema */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.font-title {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.025em;
+}
