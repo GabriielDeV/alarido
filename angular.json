@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "docs",
+            "outputPath": "dist/alarido-projeto-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -22,12 +22,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "src/assets/",
-                "output": "/assets/"
-              }
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -48,8 +43,7 @@
                   "maximumError": "10kb"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/alarido/"
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
@@ -96,6 +90,14 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/alarido/",
+            "name": "GabriielDeV",
+            "email": "seu-email@example.com"
           }
         }
       }

@@ -13,6 +13,7 @@ interface Document {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title = 'Alarido';
   searchQuery: string = '';
   searchResults: number = 0;
   filteredDocuments: Document[] = [];
