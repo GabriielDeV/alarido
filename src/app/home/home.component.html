@@ -1,0 +1,233 @@
+<div class="flex flex-col h-screen" [ngClass]="{'dark': isDarkMode}">
+    <!-- Cabeçalho Mobile -->
+    <div class="md:hidden flex items-center justify-between p-2 sm:p-3 lg:p-4 bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
+        <div class="flex items-center">
+            <button (click)="toggleBooksDropdown()" 
+                    class="flex items-center gap-2 p-2 sm:p-2.5 lg:p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                <i class="fas fa-book text-sm sm:text-base lg:text-lg text-navy-500 dark:text-white"></i>
+                <span class="text-sm text-navy-500 dark:text-white">Livros</span>
+            </button>
+        </div>
+        <div class="font-title text-lg sm:text-xl lg:text-2xl bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white bg-clip-text text-transparent font-bold absolute left-1/2 transform -translate-x-1/2">Alarido</div>
+        <div class="flex items-center gap-1 sm:gap-2 lg:gap-3">
+            <button (click)="toggleDarkMode()" 
+                    class="p-2 sm:p-2.5 lg:p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                <i class="fas text-sm sm:text-base lg:text-lg text-navy-500 dark:text-white" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+            </button>
+            <button (click)="toggleLoginModal()" 
+                    class="flex items-center justify-center bg-white border-2 border-navy-500 dark:border-white p-2 sm:p-2.5 lg:p-3 rounded-full hover:bg-navy-50 dark:hover:bg-gray-700 transition-all transform hover:scale-105 active:scale-95 shadow-md">
+                <i class="fas fa-user text-sm sm:text-base lg:text-lg text-navy-500 dark:text-white"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div *ngIf="showLoginModal" 
+         class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-[90%] sm:max-w-md p-4 sm:p-6 transform transition-all slide-up">
+            <div class="flex flex-col items-center mb-4 sm:mb-6">
+                <img src="assets/alarido.png" alt="Alarido Logo" class="w-20 sm:w-28 h-20 sm:h-28 mb-3 sm:mb-4 object-contain">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Login Alarido</h2>
+            </div>
+            <form (ngSubmit)="onLogin($event)" class="space-y-4">
+                <!-- Mensagem de erro -->
+                <div *ngIf="loginError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                    {{ loginError }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Email</label>
+                    <input type="email" 
+                           [(ngModel)]="email"
+                           name="email"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-white"
+                           placeholder="seu@email.com"
+                           required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Senha</label>
+                    <input type="password"
+                           [(ngModel)]="password"
+                           name="password" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-white"
+                           placeholder="********"
+                           required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               class="h-4 w-4 text-navy-500 dark:text-white border-gray-300 dark:border-white rounded">
+                        <label class="ml-2 block text-sm text-gray-700 dark:text-white">
+                            Lembrar-me
+                        </label>
+                    </div>
+                    <a href="#" class="text-sm text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-white">
+                        Esqueceu a senha?
+                    </a>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white text-white dark:text-gray-900 py-3 px-4 rounded-lg hover:from-navy-600 hover:to-navy-700 dark:hover:from-gray-100 dark:hover:to-gray-100 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md font-medium text-base flex items-center justify-center space-x-2">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Entrar na Plataforma</span>
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <span class="text-sm text-gray-600 dark:text-white">Não tem uma conta?</span>
+                <a href="#" class="text-sm text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-white ml-1">Registre-se</a>
+            </div>
+            <button (click)="toggleLoginModal()" 
+                    class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-white dark:hover:text-white">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <!-- Barra Lateral -->
+        <div class="w-full md:w-1/3 lg:w-1/4 md:min-h-screen border-b md:border-b-0 md:border-r border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+            <div class="p-2 sm:p-3 md:p-4">
+                <div class="relative">
+                    <div class="flex items-center mb-3 sm:mb-4 fade-in">
+                        <input type="text" [(ngModel)]="searchQuery" 
+                               (input)="onSearchInput()"
+                               placeholder="Pesquisar na Tabela" 
+                               class="border border-gray-300 rounded-l px-2 sm:px-3 py-1.5 sm:py-2 w-full dark:bg-gray-700 dark:border-white dark:text-white dark:placeholder-white text-xs sm:text-sm md:text-base">
+                        <button (click)="searchDocuments()" 
+                                class="bg-navy-500 dark:bg-white text-white dark:text-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded-r hover:bg-navy-600 dark:hover:bg-gray-100 text-xs sm:text-sm md:text-base">IR</button>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-2 fade-in">
+                        <div class="flex items-center">
+                            <i class="fas fa-search text-navy-500 dark:text-white mr-2 text-sm"></i>
+                            <span class="text-navy-500 dark:text-white text-sm">PESQUISANDO:</span>
+                            <span class="text-gray-700 dark:text-white text-sm ml-2">{{ searchQuery || 'Todas as palavras' }}</span>
+                        </div>
+                        <div class="text-gray-700 dark:text-white text-sm font-medium">
+                            {{ searchResults }} resultados
+                        </div>
+                    </div>
+
+                    <!-- Resultados da Pesquisa -->
+                    <div *ngIf="showSearchResults && searchQuery" 
+                         class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg overflow-y-auto max-h-[50vh] sm:max-h-[60vh] md:max-h-[70vh]">
+                        <div *ngIf="searchResults === 0" class="p-4 text-gray-700 dark:text-white text-sm text-center">
+                            Nenhum resultado encontrado
+                        </div>
+                        <div *ngFor="let doc of filteredDocuments" 
+                             (click)="selectSearchResult(doc)"
+                             class="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
+                            <div class="font-medium text-gray-800 dark:text-white">{{ doc.title }}</div>
+                            <div class="text-sm text-gray-600 dark:text-white mt-1">{{ doc.code }} - {{ doc.location }}</div>
+                            <div class="text-sm text-gray-500 dark:text-white mt-2 line-clamp-2">
+                                {{ doc.content[0] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdowns Mobile -->
+            <div *ngIf="showBooksDropdown" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-t-xl fixed bottom-0 left-0 right-0 max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-medium text-gray-800 dark:text-white">Selecione um Livro</h3>
+                        <button (click)="toggleBooksDropdown()" 
+                                class="text-gray-500 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div *ngFor="let doc of documents" 
+                             (click)="selectBook(doc)"
+                             class="p-4 mb-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border border-gray-200 dark:border-gray-700">
+                            <div class="font-medium text-gray-800 dark:text-white mb-2">{{ doc.title }}</div>
+                            <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                                <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
+                                <span>{{ doc.code }}</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
+                                <span>{{ doc.location }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="w-full md:w-2/3 lg:w-3/4 flex flex-col dark:bg-gray-900 overflow-hidden">
+            <!-- Cabeçalho Desktop -->
+            <div class="hidden md:flex flex-col bg-white dark:bg-gray-800 shadow-md fade-in">
+                <!-- Logo e Nome -->
+                <div class="flex items-center justify-center py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="font-title text-4xl bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white bg-clip-text text-transparent font-bold">Alarido</div>
+                </div>
+                
+                <!-- Barra de Navegação -->
+                <div class="hidden md:flex justify-between items-center px-4 lg:px-6 py-2 lg:py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center relative">
+                        <button (click)="toggleBooksDropdown()" 
+                                class="flex items-center gap-2 px-3 py-2 lg:px-4 lg:py-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                            <i class="fas fa-book text-base lg:text-lg text-navy-500 dark:text-white"></i>
+                            <span class="text-sm lg:text-base text-navy-500 dark:text-white">Selecionar Livro</span>
+                            <i class="fas fa-chevron-down text-sm lg:text-base text-navy-500 dark:text-white"></i>
+                        </button>
+
+                        <!-- Dropdown de Livros Desktop -->
+                        <div *ngIf="showBooksDropdown" 
+                             class="absolute top-full left-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50">
+                            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-medium text-gray-800 dark:text-white">Selecione um Livro</h3>
+                            </div>
+                            <div class="max-h-[60vh] overflow-y-auto">
+                                <div *ngFor="let doc of documents" 
+                                     (click)="selectBook(doc)"
+                                     class="p-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-700 transition-colors">
+                                    <div class="font-medium text-gray-800 dark:text-white mb-1">{{ doc.title }}</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">{{ doc.code }} - {{ doc.location }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 lg:gap-4">
+                        <button (click)="toggleDarkMode()" 
+                                class="p-2 lg:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
+                            <i class="fas text-base lg:text-lg text-navy-500 dark:text-white" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+                        </button>
+                        <button (click)="toggleLoginModal()" 
+                                class="flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white hover:from-navy-600 hover:to-navy-700 dark:hover:from-gray-100 dark:hover:to-gray-100 transition-all transform hover:scale-105 active:scale-95 shadow-md">
+                            <i class="fas fa-user text-base lg:text-lg text-white dark:text-gray-900"></i>
+                            <span class="text-sm lg:text-base text-white dark:text-gray-900 font-medium">Entrar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de Leitura -->
+            <div class="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 scroll-smooth">
+                <div class="max-w-3xl mx-auto">
+                    <div class="text-navy-500 dark:text-white text-xs sm:text-sm mb-2 fade-in">
+                        {{ currentDocument.code }} {{ currentDocument.title }}
+                    </div>
+                    <div class="text-center mb-3 sm:mb-4 md:mb-6 fade-in">
+                        <div class="text-base sm:text-lg md:text-2xl font-serif italic mb-2 dark:text-white">
+                            {{ currentDocument.title }}
+                        </div>
+                        <div class="text-xs sm:text-sm md:text-lg mb-2 dark:text-white">
+                            {{ currentDocument.code }}
+                        </div>
+                        <div class="text-xs sm:text-sm md:text-lg font-semibold dark:text-white">
+                            {{ currentDocument.location }}
+                        </div>
+                    </div>
+                    <div class="text-gray-700 dark:text-white space-y-3 sm:space-y-4 md:space-y-6">
+                        <div *ngFor="let paragraph of currentDocument.content" 
+                             class="fade-in leading-relaxed text-xs sm:text-sm md:text-base transition-all duration-500" 
+                             [innerHTML]="paragraph"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

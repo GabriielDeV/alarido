@@ -1,0 +1,315 @@
+<!-- Mensagem de Confirmação -->
+<div *ngIf="showSaveConfirmation" 
+     class="fixed bottom-4 right-4 bg-white dark:bg-gray-800 px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300 fade-in">
+  <div class="flex items-center space-x-2">
+    <i class="fas fa-heart text-blue-500 dark:text-white"></i>
+    <span class="text-gray-800 dark:text-white">{{ saveConfirmationMessage }}</span>
+  </div>
+</div>
+
+<!-- Dica de Salvar -->
+<div class="fixed bottom-4 left-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg z-50 max-w-sm fade-in">
+  <div class="flex items-start space-x-3">
+    <div class="text-blue-500 dark:text-white mt-1">
+      <i class="fas fa-lightbulb text-xl"></i>
+    </div>
+    <div>
+      <h4 class="font-medium text-gray-800 dark:text-white mb-1">Salve para Ler Depois!</h4>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        Clique no ícone <i class="far fa-heart mx-1 text-blue-500 dark:text-white"></i> para salvar mensagens e lê-las mais tarde.
+      </p>
+    </div>
+    <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" onclick="this.parentElement.parentElement.remove()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div *ngIf="isLoading" class="fixed inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
+  <div class="flex flex-col items-center">
+    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">Carregando mensagens...</p>
+  </div>
+</div>
+
+<!-- Menu de Marcação -->
+<div *ngIf="isHighlightMenuVisible" 
+     [style.left.px]="highlightMenuPosition.x"
+     [style.top.px]="highlightMenuPosition.y"
+     class="fixed transform -translate-x-1/2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 z-[9999] flex space-x-2 items-center">
+  <button *ngFor="let color of highlightColors"
+          (click)="addHighlight(color.class)"
+          [class]="'w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition-transform'"
+          [ngStyle]="{'background-color': color.bgColor}"
+          [title]="color.name">
+    <i class="fas fa-highlighter text-gray-700 dark:text-gray-300 opacity-75"></i>
+  </button>
+  <button (click)="removeHighlight()"
+          class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:scale-110 transition-transform"
+          title="Remover marcação">
+    <i class="fas fa-eraser text-gray-600 dark:text-gray-400"></i>
+  </button>
+</div>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+  <!-- Header Mobile -->
+  <header class="md:hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-40">
+    <div class="flex items-center justify-between p-3">
+      <h1 class="text-xl font-bold bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white bg-clip-text text-transparent">
+        Alarido
+      </h1>
+      <div class="flex items-center gap-2">
+        <button (click)="toggleDarkMode()" 
+                class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas text-gray-600 dark:text-white" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+        </button>
+        <button (click)="logout()" 
+                class="flex items-center gap-1 bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white text-white dark:text-gray-900 px-3 py-1.5 rounded-full text-sm hover:from-navy-600 hover:to-navy-700 dark:hover:from-gray-100 dark:hover:to-gray-100">
+          <i class="fas fa-sign-out-alt text-sm"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Barra de Pesquisa Mobile -->
+    <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+      <div class="relative">
+        <input type="text" 
+               [(ngModel)]="searchQuery"
+               (input)="onSearchInput()"
+               placeholder="Pesquisar mensagens..." 
+               class="w-full px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 border-0 text-sm focus:ring-2 focus:ring-navy-500 dark:focus:ring-white">
+        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Header Desktop -->
+  <header class="hidden md:block bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-40">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white bg-clip-text text-transparent">
+            Alarido
+          </h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" 
+                   [(ngModel)]="searchQuery"
+                   (input)="onSearchInput()"
+                   placeholder="Pesquisar mensagens..." 
+                   class="w-64 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 border-0 focus:ring-2 focus:ring-navy-500 dark:focus:ring-white">
+            <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          </div>
+          <button (click)="toggleDarkMode()" 
+                  class="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas text-gray-600 dark:text-white" [ngClass]="{'fa-moon': !isDarkMode, 'fa-sun': isDarkMode}"></i>
+          </button>
+          <button (click)="logout()" 
+                  class="flex items-center gap-2 bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white text-white dark:text-gray-900 px-6 py-2.5 rounded-full hover:from-navy-600 hover:to-navy-700 dark:hover:from-gray-100 dark:hover:to-gray-100">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+    <!-- Mensagens Recentes -->
+    <section class="mb-6 sm:mb-8 fade-in">
+        <h2 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+            <i class="fas fa-clock text-navy-500 dark:text-white mr-2"></i>
+            Mensagens Recentes
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+            <div *ngFor="let doc of documents; let i = index" 
+                 class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group"
+                 [style.animation-delay]="i * 0.1 + 's'">
+                <!-- Botão de Favorito -->
+                <div class="absolute top-2 right-2 z-10">
+                    <i (click)="toggleSave(doc, $event)" 
+                       [class]="doc.saved ? 'fas fa-heart' : 'far fa-heart'"
+                       class="text-lg sm:text-xl cursor-pointer transition-all duration-300 hover:scale-125"
+                       [class.text-navy-500]="doc.saved"
+                       [class.dark:text-white]="doc.saved"
+                       [class.text-gray-600]="!doc.saved"
+                       [class.hover:text-navy-500]="!doc.saved"
+                       [class.dark:hover:text-white]="!doc.saved">
+                    </i>
+                </div>
+                <!-- Conteúdo do Card -->
+                <div class="p-3 sm:p-4">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">{{ doc.title }}</h3>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.code }}
+                        </div>
+                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.location }}
+                        </div>
+                    </div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-3 leading-relaxed">
+                        {{ doc.content[0] }}
+                    </div>
+                    <div class="flex justify-between items-center pt-3 mt-3 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.date }}
+                        </span>
+                        <button (click)="openDocument(doc)" 
+                                class="flex items-center gap-1 text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-gray-200 text-xs sm:text-sm font-medium">
+                            <span>Ler</span>
+                            <i class="fas fa-arrow-right text-xs sm:text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Salvos para Ler Depois -->
+    <section class="fade-in">
+        <h2 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+            <i class="far fa-heart text-navy-500 dark:text-white mr-2"></i>
+            Salvos para Ler Depois
+        </h2>
+        <div *ngIf="savedDocuments.length === 0" 
+             class="text-center py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+            <i class="far fa-heart text-4xl sm:text-5xl text-gray-300 dark:text-gray-600 mb-3"></i>
+            <p class="text-gray-500 dark:text-gray-400 text-sm sm:text-base">Nenhuma mensagem salva ainda</p>
+            <p class="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-2">Use o ícone de coração para salvar mensagens para ler depois</p>
+        </div>
+        <div *ngIf="savedDocuments.length > 0" 
+             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+            <div *ngFor="let doc of savedDocuments" 
+                 class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group">
+                <div class="absolute top-2 right-2 z-10">
+                    <i (click)="toggleSave(doc, $event)"
+                       class="fas fa-heart text-xl text-navy-500 dark:text-white cursor-pointer transition-all duration-300 hover:scale-125">
+                    </i>
+                </div>
+                <div class="p-3 sm:p-4">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">{{ doc.title }}</h3>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.code }}
+                        </div>
+                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.location }}
+                        </div>
+                    </div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-3 leading-relaxed">
+                        {{ doc.content[0] }}
+                    </div>
+                    <div class="flex justify-between items-center pt-3 mt-3 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-navy-500 dark:text-white"></i>
+                            {{ doc.date }}
+                        </span>
+                        <button (click)="openDocument(doc)" 
+                                class="flex items-center gap-1 text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-gray-200 text-xs sm:text-sm font-medium">
+                            <span>Ler</span>
+                            <i class="fas fa-arrow-right text-xs sm:text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  </main>
+
+  <!-- Modal de Leitura -->
+  <div *ngIf="showReadingView && currentDocument" 
+       class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
+       (click)="closeReadingView()">
+    <div class="bg-white dark:bg-gray-800 rounded-xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl"
+         (click)="$event.stopPropagation()">
+        <!-- Cabeçalho do Modal -->
+        <div class="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <h2 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white line-clamp-1">{{ currentDocument.title }}</h2>
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <i (click)="toggleSave(currentDocument, $event)"
+                       [class]="currentDocument.saved ? 'fas fa-heart' : 'far fa-heart'"
+                       class="text-xl cursor-pointer transition-all duration-300 hover:scale-125"
+                       [class.text-navy-500]="currentDocument.saved"
+                       [class.dark:text-white]="currentDocument.saved"
+                       [class.text-gray-600]="!currentDocument.saved"
+                       [class.hover:text-navy-500]="!currentDocument.saved"
+                       [class.dark:hover:text-white]="!currentDocument.saved">
+                    </i>
+                </div>
+            </div>
+            <button (click)="closeReadingView()" 
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Conteúdo do Modal -->
+        <div class="flex-1 overflow-y-auto p-3 sm:p-4 scroll-smooth">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-4 sm:mb-6">
+                    <div class="inline-flex items-center space-x-2 text-xs sm:text-sm text-navy-500 mb-2 bg-navy-50 dark:bg-navy-500/10 px-2 py-1 rounded-full">
+                        <i class="fas fa-hashtag"></i>
+                        <span>{{ currentDocument.code }}</span>
+                    </div>
+                    <div class="text-xl sm:text-2xl font-serif italic mb-2 text-gray-800 dark:text-white">
+                        {{ currentDocument.title }}
+                    </div>
+                    <div class="flex items-center justify-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                        <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
+                        {{ currentDocument.location }}
+                    </div>
+                </div>
+                <div class="prose dark:prose-invert max-w-none">
+                    <div *ngFor="let paragraph of currentDocument.content; let i = index" 
+                         class="mb-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed fade-in"
+                         [id]="'paragraph-' + i"
+                         (mouseup)="onTextSelection($event, i)">
+                        {{ paragraph }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adicione os estilos para as cores de marcação -->
+<style>
+  .highlight-yellow { 
+    background-color: rgba(255, 255, 0, 0.3); 
+    transition: background-color 0.3s ease;
+  }
+  .highlight-green { 
+    background-color: rgba(0, 255, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+  .highlight-blue { 
+    background-color: rgba(0, 191, 255, 0.2);
+    transition: background-color 0.3s ease;
+  }
+  .highlight-pink { 
+    background-color: rgba(255, 182, 193, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  .dark .highlight-yellow { background-color: rgba(255, 255, 0, 0.2); }
+  .dark .highlight-green { background-color: rgba(0, 255, 0, 0.15); }
+  .dark .highlight-blue { background-color: rgba(0, 191, 255, 0.15); }
+  .dark .highlight-pink { background-color: rgba(255, 182, 193, 0.2); }
+
+  /* Efeito hover nas marcações */
+  .highlight-yellow:hover { background-color: rgba(255, 255, 0, 0.4); }
+  .highlight-green:hover { background-color: rgba(0, 255, 0, 0.3); }
+  .highlight-blue:hover { background-color: rgba(0, 191, 255, 0.3); }
+  .highlight-pink:hover { background-color: rgba(255, 182, 193, 0.4); }
+</style>
