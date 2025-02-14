@@ -23,60 +23,81 @@
 
     <!-- Modal de Login -->
     <div *ngIf="showLoginModal" 
-         class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-[90%] sm:max-w-md p-4 sm:p-6 transform transition-all slide-up">
-            <div class="flex flex-col items-center mb-4 sm:mb-6">
-                <img src="assets/alarido.png" alt="Alarido Logo" class="w-20 sm:w-28 h-20 sm:h-28 mb-3 sm:mb-4 object-contain">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Login Alarido</h2>
+         class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 sm:p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-6 sm:p-8 relative transform transition-all">
+            <!-- Logo e Título -->
+            <div class="flex flex-col items-center mb-6 sm:mb-8">
+                <div class="w-32 sm:w-40 h-32 sm:h-40 mb-4 sm:mb-6 relative flex items-center justify-center">
+                    <img src="assets/alarido-logo.png" 
+                         alt="Alarido Logo" 
+                         class="w-full h-full object-contain transform hover:scale-105 transition-all duration-300 filter dark:brightness-[1.2] dark:contrast-[1.2]">
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center">
+                    Bem-vindo ao Alarido
+                </h2>
+                <p class="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-300 text-center">
+                    Entre para acessar sua conta
+                </p>
             </div>
-            <form (ngSubmit)="onLogin($event)" class="space-y-4">
+
+            <form (ngSubmit)="onLogin($event)" class="space-y-4 sm:space-y-6">
                 <!-- Mensagem de erro -->
-                <div *ngIf="loginError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-                    {{ loginError }}
+                <div *ngIf="loginError" 
+                     class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative">
+                    <p class="text-sm">{{ loginError }}</p>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Email</label>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
                     <input type="email" 
                            [(ngModel)]="email"
                            name="email"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-white"
+                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-navy-500 focus:border-navy-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                            placeholder="seu@email.com"
                            required>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Senha</label>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-white">Senha</label>
                     <input type="password"
                            [(ngModel)]="password"
                            name="password" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-white"
+                           class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-navy-500 focus:border-navy-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                            placeholder="********"
                            required>
                 </div>
+
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input type="checkbox" 
-                               class="h-4 w-4 text-navy-500 dark:text-white border-gray-300 dark:border-white rounded">
-                        <label class="ml-2 block text-sm text-gray-700 dark:text-white">
+                               id="remember"
+                               class="h-4 w-4 text-navy-500 border-gray-300 rounded focus:ring-navy-500">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-white">
                             Lembrar-me
                         </label>
                     </div>
-                    <a href="#" class="text-sm text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-white">
+                    <a href="#" class="text-sm font-medium text-navy-500 hover:text-navy-600 dark:text-navy-400 dark:hover:text-navy-300">
                         Esqueceu a senha?
                     </a>
                 </div>
+
                 <button type="submit" 
-                        class="w-full bg-gradient-to-r from-navy-500 to-navy-600 dark:from-white dark:to-white text-white dark:text-gray-900 py-3 px-4 rounded-lg hover:from-navy-600 hover:to-navy-700 dark:hover:from-gray-100 dark:hover:to-gray-100 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md font-medium text-base flex items-center justify-center space-x-2">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Entrar na Plataforma</span>
+                        class="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-navy-500 to-navy-600 hover:from-navy-600 hover:to-navy-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-500 transform transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg dark:from-white dark:to-gray-100 dark:text-gray-900">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Entrar na Plataforma
                 </button>
             </form>
-            <div class="mt-4 text-center">
-                <span class="text-sm text-gray-600 dark:text-white">Não tem uma conta?</span>
-                <a href="#" class="text-sm text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-white ml-1">Registre-se</a>
+
+            <div class="mt-6 text-center">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Não tem uma conta?</span>
+                <a href="#" class="ml-1 text-sm font-medium text-navy-500 hover:text-navy-600 dark:text-navy-400 dark:hover:text-navy-300">
+                    Registre-se
+                </a>
             </div>
+
+            <!-- Botão de fechar -->
             <button (click)="toggleLoginModal()" 
-                    class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-white dark:hover:text-white">
+                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
