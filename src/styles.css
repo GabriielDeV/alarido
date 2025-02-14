@@ -1,0 +1,166 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+/* Cores personalizadas */
+:root {
+  --navy-50: #e6f1ff;
+  --navy-100: #cce4ff;
+  --navy-200: #99c8ff;
+  --navy-300: #66adff;
+  --navy-400: #3392ff;
+  --navy-500: #0047AB;
+  --navy-600: #3d518c;
+  --navy-700: #334471;
+  --navy-800: #2c395d;
+  --navy-900: #1a223d;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    @apply bg-white dark:bg-navy-900;
+    transition: background-color 0.3s ease;
+}
+
+.dark body {
+    @apply bg-navy-900;
+}
+
+/* Estilos para garantir que o tema escuro seja aplicado em elementos específicos */
+.dark input::placeholder {
+    @apply text-navy-400;
+}
+
+.dark i.fas {
+    @apply text-navy-300;
+}
+
+/* Transições suaves para mudança de tema */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.font-title {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.025em;
+}
+
+/* Estilos para o modal */
+.modal-overlay {
+    background-color: rgba(26, 34, 61, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-navy-100 dark:bg-navy-800;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-navy-400 dark:bg-navy-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-navy-500 dark:bg-navy-500;
+}
+
+/* Estilos de texto */
+.prose {
+    @apply text-navy-900 dark:text-white;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply text-navy-800 dark:text-white font-bold;
+}
+
+.prose p {
+    @apply text-navy-700 dark:text-navy-100;
+}
+
+.prose a {
+    @apply text-navy-600 dark:text-navy-300 hover:text-navy-500 dark:hover:text-navy-200;
+}
+
+/* Estilos de destaque */
+.highlight-yellow {
+    @apply bg-yellow-200/50 dark:bg-yellow-500/30 px-1 rounded transition-colors hover:bg-yellow-200/70 dark:hover:bg-yellow-500/40;
+}
+
+.highlight-green {
+    @apply bg-green-200/50 dark:bg-green-500/30 px-1 rounded transition-colors hover:bg-green-200/70 dark:hover:bg-green-500/40;
+}
+
+.highlight-blue {
+    @apply bg-navy-200/50 dark:bg-navy-500/30 px-1 rounded transition-colors hover:bg-navy-200/70 dark:hover:bg-navy-500/40;
+}
+
+.highlight-pink {
+    @apply bg-pink-200/50 dark:bg-pink-500/30 px-1 rounded transition-colors hover:bg-pink-200/70 dark:hover:bg-pink-500/40;
+}
+
+/* Animações */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Utilitários */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Estilos do menu de cores */
+.color-menu {
+    @apply bg-white dark:bg-navy-800 rounded-lg shadow-xl border border-navy-300 dark:border-navy-700;
+}
+
+.color-button {
+    @apply w-8 h-8 rounded-full hover:opacity-80 transition-opacity;
+}
+
+.remove-highlight-button {
+    @apply w-8 h-8 rounded-full bg-white border-2 border-navy-300 dark:border-navy-700 hover:bg-navy-50 dark:hover:bg-navy-700 flex items-center justify-center;
+}

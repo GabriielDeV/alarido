@@ -118,169 +118,173 @@
   </header>
 
   <!-- Main Content -->
-  <main class="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+  <main class="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
     <!-- Mensagens Recentes -->
-    <section class="mb-6 sm:mb-8 fade-in">
-        <h2 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
-            <i class="fas fa-clock text-navy-500 dark:text-white mr-2"></i>
-            Mensagens Recentes
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-            <div *ngFor="let doc of documents; let i = index" 
-                 class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group"
-                 [style.animation-delay]="i * 0.1 + 's'">
-                <!-- Botão de Favorito -->
-                <div class="absolute top-2 right-2 z-10">
-                    <i (click)="toggleSave(doc, $event)" 
-                       [class]="doc.saved ? 'fas fa-heart' : 'far fa-heart'"
-                       class="text-lg sm:text-xl cursor-pointer transition-all duration-300 hover:scale-125"
-                       [class.text-navy-500]="doc.saved"
-                       [class.dark:text-white]="doc.saved"
-                       [class.text-gray-600]="!doc.saved"
-                       [class.hover:text-navy-500]="!doc.saved"
-                       [class.dark:hover:text-white]="!doc.saved">
-                    </i>
-                </div>
-                <!-- Conteúdo do Card -->
-                <div class="p-3 sm:p-4">
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">{{ doc.title }}</h3>
-                    <div class="flex flex-col space-y-2">
-                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.code }}
-                        </div>
-                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.location }}
-                        </div>
-                    </div>
-                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-3 leading-relaxed">
-                        {{ doc.content[0] }}
-                    </div>
-                    <div class="flex justify-between items-center pt-3 mt-3 border-t border-gray-100 dark:border-gray-700">
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                            <i class="fas fa-calendar-alt mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.date }}
-                        </span>
-                        <button (click)="openDocument(doc)" 
-                                class="flex items-center gap-1 text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-gray-200 text-xs sm:text-sm font-medium">
-                            <span>Ler</span>
-                            <i class="fas fa-arrow-right text-xs sm:text-sm"></i>
-                        </button>
-                    </div>
-                </div>
+    <section class="mb-6 sm:mb-12 fade-in">
+      <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-gray-800 dark:text-white flex items-center">
+        <i class="fas fa-clock text-navy-500 dark:text-white mr-3"></i>
+        Mensagens Recentes
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+        <div *ngFor="let doc of documents; let i = index" 
+             class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group"
+             [style.animation-delay]="i * 0.1 + 's'">
+          <div class="absolute top-3 right-3 z-10">
+            <i (click)="toggleSave(doc, $event)" 
+               [class]="doc.saved ? 'fas fa-heart' : 'far fa-heart'"
+               class="text-xl cursor-pointer transition-all duration-300 hover:scale-125"
+               [class.text-navy-500]="doc.saved"
+               [class.dark:text-white]="doc.saved"
+               [class.text-gray-600]="!doc.saved"
+               [class.hover:text-navy-500]="!doc.saved"
+               [class.dark:hover:text-white]="!doc.saved">
+            </i>
+          </div>
+          <div class="p-4 sm:p-6">
+            <h3 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2 sm:mb-3 line-clamp-2">{{ doc.title }}</h3>
+            <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+              <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
+              {{ doc.code }}
             </div>
+            <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
+              <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
+              {{ doc.location }}
+            </div>
+            <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 leading-relaxed">
+              {{ doc.content[0] }}
+            </div>
+            <div class="flex justify-between items-center pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-700">
+              <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-navy-500 dark:text-white"></i>
+                {{ doc.date }}
+              </span>
+              <button (click)="openDocument(doc)" 
+                      class="flex items-center gap-1 sm:gap-2 text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-gray-200 text-xs sm:text-sm font-medium">
+                <span>Ler mais</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Salvos para Ler Depois -->
     <section class="fade-in">
-        <h2 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
-            <i class="far fa-heart text-navy-500 dark:text-white mr-2"></i>
-            Salvos para Ler Depois
-        </h2>
-        <div *ngIf="savedDocuments.length === 0" 
-             class="text-center py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-            <i class="far fa-heart text-4xl sm:text-5xl text-gray-300 dark:text-gray-600 mb-3"></i>
-            <p class="text-gray-500 dark:text-gray-400 text-sm sm:text-base">Nenhuma mensagem salva ainda</p>
-            <p class="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-2">Use o ícone de coração para salvar mensagens para ler depois</p>
-        </div>
-        <div *ngIf="savedDocuments.length > 0" 
-             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-            <div *ngFor="let doc of savedDocuments" 
-                 class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group">
-                <div class="absolute top-2 right-2 z-10">
-                    <i (click)="toggleSave(doc, $event)"
-                       class="fas fa-heart text-xl text-navy-500 dark:text-white cursor-pointer transition-all duration-300 hover:scale-125">
-                    </i>
-                </div>
-                <div class="p-3 sm:p-4">
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">{{ doc.title }}</h3>
-                    <div class="flex flex-col space-y-2">
-                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-hashtag mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.code }}
-                        </div>
-                        <div class="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.location }}
-                        </div>
-                    </div>
-                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-3 leading-relaxed">
-                        {{ doc.content[0] }}
-                    </div>
-                    <div class="flex justify-between items-center pt-3 mt-3 border-t border-gray-100 dark:border-gray-700">
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                            <i class="fas fa-calendar-alt mr-2 text-navy-500 dark:text-white"></i>
-                            {{ doc.date }}
-                        </span>
-                        <button (click)="openDocument(doc)" 
-                                class="flex items-center gap-1 text-navy-500 dark:text-white hover:text-navy-600 dark:hover:text-gray-200 text-xs sm:text-sm font-medium">
-                            <span>Ler</span>
-                            <i class="fas fa-arrow-right text-xs sm:text-sm"></i>
-                        </button>
-                    </div>
-                </div>
+      <h2 class="text-2xl font-bold mb-8 text-gray-800 dark:text-white flex items-center">
+        <i class="far fa-heart text-navy-500 dark:text-white mr-3"></i>
+        Salvos para Ler Depois
+      </h2>
+      <div *ngIf="savedDocuments.length === 0" 
+           class="text-center py-16 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+        <i class="far fa-heart text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
+        <p class="text-gray-500 dark:text-gray-400">Nenhuma mensagem salva ainda</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Use o ícone de coração para salvar mensagens para ler depois</p>
+      </div>
+      <div *ngIf="savedDocuments.length > 0" 
+           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let doc of savedDocuments" 
+             class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group">
+          <div class="absolute top-4 right-4 z-10">
+            <i (click)="toggleSave(doc, $event)"
+               class="fas fa-heart text-2xl text-navy-500 cursor-pointer transition-all duration-300 hover:scale-125">
+            </i>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3 line-clamp-2">{{ doc.title }}</h3>
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <i class="fas fa-hashtag mr-2 text-navy-500"></i>
+              {{ doc.code }}
             </div>
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <i class="fas fa-map-marker-alt mr-2 text-navy-500"></i>
+              {{ doc.location }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 leading-relaxed">
+              {{ doc.content[0] }}
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
+              <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-navy-500"></i>
+                {{ doc.date }}
+              </span>
+              <button (click)="openDocument(doc)" 
+                      class="flex items-center space-x-2 text-navy-500 hover:text-navy-600 font-medium transition-colors">
+                <span>Ler mais</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
   </main>
 
   <!-- Modal de Leitura -->
   <div *ngIf="showReadingView && currentDocument" 
-       class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
+       class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 modal-overlay"
        (click)="closeReadingView()">
-    <div class="bg-white dark:bg-gray-800 rounded-xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl"
+    <div class="bg-white dark:bg-gray-800 rounded-xl w-full max-w-4xl h-[90vh] flex flex-col modal-content shadow-2xl"
          (click)="$event.stopPropagation()">
-        <!-- Cabeçalho do Modal -->
-        <div class="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-                <h2 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white line-clamp-1">{{ currentDocument.title }}</h2>
-                <div class="flex items-center space-x-2 sm:space-x-3">
-                    <i (click)="toggleSave(currentDocument, $event)"
-                       [class]="currentDocument.saved ? 'fas fa-heart' : 'far fa-heart'"
-                       class="text-xl cursor-pointer transition-all duration-300 hover:scale-125"
-                       [class.text-navy-500]="currentDocument.saved"
-                       [class.dark:text-white]="currentDocument.saved"
-                       [class.text-gray-600]="!currentDocument.saved"
-                       [class.hover:text-navy-500]="!currentDocument.saved"
-                       [class.dark:hover:text-white]="!currentDocument.saved">
-                    </i>
-                </div>
-            </div>
-            <button (click)="closeReadingView()" 
-                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <i class="fas fa-times text-xl"></i>
+      <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center space-x-6">
+          <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{ currentDocument.title }}</h2>
+          <div class="flex items-center space-x-3">
+            <i (click)="toggleSave(currentDocument, $event)"
+               [class]="currentDocument.saved ? 'fas fa-heart' : 'far fa-heart'"
+               class="text-2xl cursor-pointer transition-all duration-300 hover:scale-125"
+               [class.text-navy-500]="currentDocument.saved"
+               [class.dark:text-white]="currentDocument.saved"
+               [class.text-gray-600]="!currentDocument.saved"
+               [class.hover:text-navy-500]="!currentDocument.saved"
+               [class.dark:hover:text-white]="!currentDocument.saved">
+            </i>
+            <button class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-navy-500 dark:hover:text-white transition-colors">
+              <i class="fas fa-share-alt"></i>
             </button>
+            <button class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-navy-500 dark:hover:text-white transition-colors">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
         </div>
+        <button (click)="closeReadingView()" 
+                class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transform hover:scale-110 transition-all">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
 
-        <!-- Conteúdo do Modal -->
-        <div class="flex-1 overflow-y-auto p-3 sm:p-4 scroll-smooth">
-            <div class="max-w-2xl mx-auto">
-                <div class="text-center mb-4 sm:mb-6">
-                    <div class="inline-flex items-center space-x-2 text-xs sm:text-sm text-navy-500 mb-2 bg-navy-50 dark:bg-navy-500/10 px-2 py-1 rounded-full">
-                        <i class="fas fa-hashtag"></i>
-                        <span>{{ currentDocument.code }}</span>
-                    </div>
-                    <div class="text-xl sm:text-2xl font-serif italic mb-2 text-gray-800 dark:text-white">
-                        {{ currentDocument.title }}
-                    </div>
-                    <div class="flex items-center justify-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                        <i class="fas fa-map-marker-alt mr-2 text-navy-500 dark:text-white"></i>
-                        {{ currentDocument.location }}
-                    </div>
-                </div>
-                <div class="prose dark:prose-invert max-w-none">
-                    <div *ngFor="let paragraph of currentDocument.content; let i = index" 
-                         class="mb-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed fade-in"
-                         [id]="'paragraph-' + i"
-                         (mouseup)="onTextSelection($event, i)">
-                        {{ paragraph }}
-                    </div>
-                </div>
+      <!-- Conteúdo do Modal -->
+      <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-8 fade-in">
+            <div class="inline-flex items-center space-x-2 text-sm text-navy-500 mb-3 bg-navy-50 dark:bg-navy-500/10 px-3 py-1 rounded-full">
+              <i class="fas fa-hashtag"></i>
+              <span>{{ currentDocument.code }}</span>
             </div>
+            <div class="text-3xl font-serif italic mb-3 text-gray-800 dark:text-white">
+              {{ currentDocument.title }}
+            </div>
+            <div class="flex items-center justify-center text-gray-600 dark:text-gray-400 mb-2">
+              <i class="fas fa-map-marker-alt mr-2 text-navy-500"></i>
+              {{ currentDocument.location }}
+            </div>
+            <div class="flex items-center justify-center text-sm text-gray-500 dark:text-gray-500">
+              <i class="fas fa-calendar-alt mr-2 text-navy-500"></i>
+              {{ currentDocument.date }}
+            </div>
+          </div>
+          <div class="prose dark:prose-invert max-w-none">
+            <div *ngFor="let paragraph of currentDocument.content; let i = index" 
+                 class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed fade-in"
+                 [id]="'paragraph-' + i"
+                 (mouseup)="onTextSelection($event, i)">
+              {{ paragraph }}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Adicione os estilos para as cores de marcação -->
